@@ -100,84 +100,80 @@ const Dashboard = () => {
     };
 
     return (
-        <div className="app-container">
-            <Navbar />
+        <main className="main-content">
+            {/* Dashboard Header */}
+            <div className="dashboard-header">
+                <div>
+                    <h1 className="dashboard-title">Welcome back, {user?.name}! 👋</h1>
+                    <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem' }}>
+                        Here's an overview of your tasks
+                    </p>
+                </div>
+                <button
+                    className="btn btn-primary"
+                    onClick={() => setIsModalOpen(true)}
+                >
+                    + New Task
+                </button>
+            </div>
 
-            <main className="main-content">
-                {/* Dashboard Header */}
-                <div className="dashboard-header">
-                    <div>
-                        <h1 className="dashboard-title">Welcome back, {user?.name}! 👋</h1>
-                        <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem' }}>
-                            Here's an overview of your tasks
-                        </p>
-                    </div>
+            {/* Alerts */}
+            {error && <Alert type="error" message={error} onClose={() => setError('')} />}
+            {success && <Alert type="success" message={success} onClose={() => setSuccess('')} />}
+
+            {/* Stats Cards */}
+            <div className="dashboard-stats">
+                <div className="stat-card">
+                    <div className="stat-value">{stats.total}</div>
+                    <div className="stat-label">Total Tasks</div>
+                </div>
+                <div className="stat-card pending">
+                    <div className="stat-value">{stats.pending}</div>
+                    <div className="stat-label">Pending</div>
+                </div>
+                <div className="stat-card in-progress">
+                    <div className="stat-value">{stats.inProgress}</div>
+                    <div className="stat-label">In Progress</div>
+                </div>
+                <div className="stat-card completed">
+                    <div className="stat-value">{stats.completed}</div>
+                    <div className="stat-label">Completed</div>
+                </div>
+            </div>
+
+            {/* Task List */}
+            <h2 style={{ marginBottom: '1rem', fontSize: '1.25rem' }}>Your Tasks</h2>
+
+            {loading ? (
+                <div className="loading-container">
+                    <div className="spinner"></div>
+                </div>
+            ) : tasks.length === 0 ? (
+                <div className="empty-state">
+                    <div className="empty-state-icon">📝</div>
+                    <h3 className="empty-state-title">No tasks yet</h3>
+                    <p className="empty-state-text">
+                        Create your first task to get started!
+                    </p>
                     <button
                         className="btn btn-primary"
                         onClick={() => setIsModalOpen(true)}
                     >
-                        + New Task
+                        Create Task
                     </button>
                 </div>
-
-                {/* Alerts */}
-                {error && <Alert type="error" message={error} onClose={() => setError('')} />}
-                {success && <Alert type="success" message={success} onClose={() => setSuccess('')} />}
-
-                {/* Stats Cards */}
-                <div className="dashboard-stats">
-                    <div className="stat-card">
-                        <div className="stat-value">{stats.total}</div>
-                        <div className="stat-label">Total Tasks</div>
-                    </div>
-                    <div className="stat-card pending">
-                        <div className="stat-value">{stats.pending}</div>
-                        <div className="stat-label">Pending</div>
-                    </div>
-                    <div className="stat-card in-progress">
-                        <div className="stat-value">{stats.inProgress}</div>
-                        <div className="stat-label">In Progress</div>
-                    </div>
-                    <div className="stat-card completed">
-                        <div className="stat-value">{stats.completed}</div>
-                        <div className="stat-label">Completed</div>
-                    </div>
+            ) : (
+                <div className="task-list">
+                    {tasks.map((task) => (
+                        <TaskCard
+                            key={task._id}
+                            task={task}
+                            onEdit={handleEditClick}
+                            onDelete={handleDeleteTask}
+                        />
+                    ))}
                 </div>
-
-                {/* Task List */}
-                <h2 style={{ marginBottom: '1rem', fontSize: '1.25rem' }}>Your Tasks</h2>
-
-                {loading ? (
-                    <div className="loading-container">
-                        <div className="spinner"></div>
-                    </div>
-                ) : tasks.length === 0 ? (
-                    <div className="empty-state">
-                        <div className="empty-state-icon">📝</div>
-                        <h3 className="empty-state-title">No tasks yet</h3>
-                        <p className="empty-state-text">
-                            Create your first task to get started!
-                        </p>
-                        <button
-                            className="btn btn-primary"
-                            onClick={() => setIsModalOpen(true)}
-                        >
-                            Create Task
-                        </button>
-                    </div>
-                ) : (
-                    <div className="task-list">
-                        {tasks.map((task) => (
-                            <TaskCard
-                                key={task._id}
-                                task={task}
-                                onEdit={handleEditClick}
-                                onDelete={handleDeleteTask}
-                            />
-                        ))}
-                    </div>
-                )}
-            </main>
+            )}
 
             {/* Task Modal */}
             <TaskModal
@@ -187,7 +183,7 @@ const Dashboard = () => {
                 task={editingTask}
                 isEditing={!!editingTask}
             />
-        </div>
+        </main>
     );
 };
 
