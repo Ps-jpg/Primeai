@@ -1,5 +1,7 @@
 # Backend Developer Dashboard
 
+for live api doc 'https://primeai-6l1t.onrender.com/api-docs/'
+
 A **scalable REST API** with Authentication, Role-Based Access Control (RBAC), and a modern React frontend for task management.
 
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
